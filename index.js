@@ -27,6 +27,10 @@ async function run() {
 
     const coffeeCollection = client.db('coffeeDB').collection('coffee');
 
+    app.get('/', (req, res) => {
+      res.send('Beans & Blends store server is running ');
+    });
+
     app.get('/coffee', async (req, res) => {
       const cursor = coffeeCollection.find();
       const result = await cursor.toArray();
@@ -86,9 +90,9 @@ async function run() {
 }
 run().catch(console.dir);
 
-app.get('/', (req, res) => {
-  res.send('Beans & Blends store server is running ');
-});
+// app.get('/', (req, res) => {
+//   res.send('Beans & Blends store server is running ');
+// });
 
 app.listen(port, () => {
   console.log(`Beans & Blends server is running on port: ${port}`);
