@@ -9,7 +9,7 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-const uri = `mongodb+srv://coffeeMaster:JcOWTKx1wyhg0XjH@cluster0.4zbzvmu.mongodb.net/?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.4zbzvmu.mongodb.net/?retryWrites=true&w=majority`;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
@@ -26,10 +26,6 @@ async function run() {
     await client.connect();
 
     const coffeeCollection = client.db('coffeeDB').collection('coffee');
-
-    app.get('/', (req, res) => {
-      res.send('Beans & Blends store server is running ');
-    });
 
     app.get('/coffee', async (req, res) => {
       const cursor = coffeeCollection.find();
@@ -93,6 +89,9 @@ run().catch(console.dir);
 // app.get('/', (req, res) => {
 //   res.send('Beans & Blends store server is running ');
 // });
+app.get('/', (req, res) => {
+  res.send('Beans & Blends store server is running ');
+});
 
 app.listen(port, () => {
   console.log(`Beans & Blends server is running on port: ${port}`);
